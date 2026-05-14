@@ -1,0 +1,107 @@
+/**
+ * Firestore Schema Documentation
+ * 
+ * Collections and document structure for TourExpo
+ */
+
+export interface UserProfile {
+  uid: string;
+  email: string;
+  displayName?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Destination {
+  id: string;
+  name: string;
+  country: string;
+  region?: string;
+  latitude: number;
+  longitude: number;
+  description: string;
+  population?: number;
+  attractionCount: number;
+  createdAt: Date;
+}
+
+export interface Attraction {
+  id: string;
+  destinationId: string; // foreign key to Destination
+  name: string;
+  description: string;
+  category: string; // e.g., "museum", "park", "beach", "monument", "restaurant"
+  budgetLevel: 'budget' | 'moderate' | 'premium'; // cost indicator
+  tags: string[]; // e.g., ["cultural", "outdoor", "family-friendly", "historical"]
+  latitude?: number;
+  longitude?: number;
+  rating?: number; // 0-5
+  reviewCount?: number;
+  image?: string; // URL
+  website?: string;
+  phone?: string;
+  address?: string;
+  hours?: string;
+  source: 'seeded' | 'external'; // data origin
+  externalId?: string; // ID from external API if applicable
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface UserPreference {
+  userId: string;
+  budgetLevel: 'budget' | 'moderate' | 'premium';
+  interests: string[]; // e.g., ["culture", "nature", "food", "history", "adventure"]
+  tripDuration: 'day' | 'weekend' | 'week' | 'longer';
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Recommendation {
+  id: string;
+  userId: string;
+  destinationId: string;
+  attractionIds: string[]; // ranked list of attraction IDs
+  scores: Record<string, number>; // attractionId -> score
+  explanations: Record<string, string>; // attractionId -> why_recommended
+  createdAt: Date;
+}
+
+export interface Favorite {
+  id: string;
+  userId: string;
+  attractionId: string;
+  destinationId: string;
+  notes?: string;
+  savedAt: Date;
+}
+
+/**
+ * Firestore Collections Structure:
+ * 
+ * /users/{uid}
+ *   - User profile data
+ * 
+ * /destinations/{destinationId}
+ *   - Destination metadata and summary
+ * 
+ * /destinations/{destinationId}/attractions/{attractionId}
+ *   - Attractions within a destination
+ * 
+ * /recommendations/{recommendationId}
+ *   - Generated recommendation results (cached per user query)
+ * 
+ * /users/{uid}/favorites/{favoriteId}
+ *   - User's saved favorite attractions
+ * 
+ * /userPreferences/{userId}
+ *   - User preference profile for recommendations
+ */
+
+/**
+ * Security Rules Strategy:
+ * - Users can only read/write their own user data
+ * - Destinations and attractions are read-only for all authenticated users
+ * - Recommendations are user-scoped (only user can read their own)
+ * - Favorites are user-scoped (users manage their own favorites)
+ */
