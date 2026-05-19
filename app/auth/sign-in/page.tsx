@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF } from "react-icons/fa";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -112,31 +113,41 @@ export default function SignInPage() {
     }
   };
 
+  const handleFacebookSignIn = () => {
+    setError("Facebook sign-in is coming soon.");
+  };
+
   return (
-    <div
-      className="flex flex-1 items-center justify-center min-h-screen"
-      style={{
-        background:
-          "linear-gradient(135deg, var(--tw-gradient-from, #eff6ff), var(--tw-gradient-to, #e0e7ff))",
-      }}
-    >
-      <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800">
-        <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
-          TourExpo
-        </h1>
-        <p className="mb-6 text-gray-600 dark:text-gray-300">
-          Smart travel recommendations
-        </p>
+    <div className="relative flex min-h-screen flex-1 items-center justify-center overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-50"
+        style={{
+          backgroundImage: "url(/images/bgimage.jpg)",
+        }}
+      />
+      <div className="relative z-10 w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
+        <div className="text-center">
+          <h1 className="mb-2 text-3xl font-bold text-blue-600">SmartTravel</h1>
+          {isSignUp ? (
+            <p className="mb-6 text-gray-600">
+              Create your account to start exploring amazing destinations.
+            </p>
+          ) : (
+            <p className="mb-6 text-gray-600">
+              Welcome back! Login to continue exploring amazing destinations.
+            </p>
+          )}
+        </div>
 
         {error && (
-          <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-800 dark:bg-red-900 dark:text-red-200">
+          <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-800">
             {error}
           </div>
         )}
 
         <form onSubmit={handleEmailAuth} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-gray-700">
               Email
             </label>
             <input
@@ -145,13 +156,13 @@ export default function SignInPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="mt-1 w-full rounded border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              className="mt-1 w-full rounded-lg text-gray-700 bg-gray-200 px-3 py-2"
               placeholder="you@example.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-gray-700">
               Password
             </label>
             <input
@@ -161,46 +172,87 @@ export default function SignInPage() {
               required
               minLength={6}
               autoComplete={isSignUp ? "new-password" : "current-password"}
-              className="mt-1 w-full rounded border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              className="mt-1 w-full rounded-lg text-gray-700 bg-gray-200 px-3 py-2"
               placeholder="••••••••"
             />
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-xs text-gray-500">
               Passwords must be at least 6 characters.
             </p>
+
+            {isSignUp && (
+              <div>
+                <input
+                  type="password"
+                  // value={password}
+                  // onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={6}
+                  autoComplete={isSignUp ? "new-password" : "current-password"}
+                  className="mt-5 w-full rounded-lg text-gray-700 bg-gray-200 px-3 py-2"
+                  placeholder="Confirm Password"
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  Passwords must be at least 6 characters.
+                </p>
+              </div>
+            )}
+            {!isSignUp && (
+              <button
+                type="button"
+                onClick={() => {
+                  setError("Password reset coming soon.");
+                }}
+                className="mt-2 text-sm text-indigo-600 hover:text-indigo-700"
+              >
+                Forgot password?
+              </button>
+            )}
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded bg-indigo-600 py-2 text-white font-medium hover:bg-indigo-700 disabled:opacity-50 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+            className="w-full rounded bg-indigo-600 py-2  font-medium hover:bg-indigo-700 disabled:opacity-50"
           >
-            {loading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}
+            {loading ? "Loading..." : isSignUp ? "Create Account" : "Sign In"}
           </button>
         </form>
 
         <div className="my-4 flex items-center">
-          <div className="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
-          <span className="px-2 text-sm text-gray-500 dark:text-gray-400">
-            or
-          </span>
-          <div className="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
+          <div className="flex-1 border-t border-gray-300"></div>
+          <span className="px-2 text-sm text-gray-500">or</span>
+          <div className="flex-1 border-t border-gray-300"></div>
         </div>
 
-        <button
-          onClick={handleGoogleSignIn}
-          disabled={loading}
-          className="w-full rounded border border-gray-300 bg-white py-2 text-gray-900 font-medium hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 flex items-center justify-center gap-2"
-        >
-          <FcGoogle className="h-5 w-5" />
-          {loading ? "Loading..." : "Sign In with Google"}
-        </button>
+        <div className="flex justify-center gap-3">
+          <button
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+            aria-label="Sign in with Google"
+            title="Sign in with Google"
+            className="rounded-full border border-gray-300 bg-white p-2 disabled:opacity-50 hover:bg-gray-50 flex items-center justify-center h-10 w-10"
+          >
+            <FcGoogle className="h-5 w-5" />
+          </button>
 
-        <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+          <button
+            type="button"
+            onClick={handleFacebookSignIn}
+            disabled={loading}
+            aria-label="Sign in with Facebook"
+            title="Sign in with Facebook"
+            className="rounded-full border border-blue-600 bg-blue-600 p-2  disabled:opacity-50 flex items-center justify-center h-10 w-10 hover:bg-blue-700"
+          >
+            <FaFacebookF className="h-4 w-4" />
+          </button>
+        </div>
+
+        <p className="mt-6 text-center text-sm text-gray-600">
           {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
           <button
             type="button"
             onClick={() => setIsSignUp(!isSignUp)}
-            className="font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
+            className="font-medium text-indigo-600 hover:text-indigo-700"
           >
             {isSignUp ? "Sign In" : "Sign Up"}
           </button>

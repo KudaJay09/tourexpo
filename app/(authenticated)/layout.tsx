@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { ProtectedLayout } from '@/lib/protected-layout';
-import { useAuth } from '@/lib/use-auth';
+import { ProtectedLayout } from "@/lib/protected-layout";
+import { useAuth } from "@/lib/use-auth";
 
 export default function AuthenticatedLayout({
   children,

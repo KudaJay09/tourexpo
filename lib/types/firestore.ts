@@ -25,12 +25,12 @@ export interface Attraction {
   destinationId: string;
   description: string;
   category: string; // e.g., "landmark", "museum", "nature", "food", "entertainment"
-  budget: 'free' | 'low' | 'medium' | 'high'; // budget tier
+  budget: "free" | "low" | "medium" | "high"; // budget tier
   tags: string[]; // e.g., ["outdoor", "historical", "photography", "kids-friendly"]
   rating?: number; // 0-5
   reviewCount?: number;
   imageUrl?: string;
-  source: 'seeded' | 'api'; // data source
+  source: "seeded" | "api"; // data source
   latitude?: number;
   longitude?: number;
   createdAt: Date;
@@ -41,7 +41,7 @@ export interface UserPreferences {
   id: string;
   userId: string;
   destinationId: string;
-  budget: 'budget' | 'moderate' | 'luxury';
+  budget: "budget" | "moderate" | "luxury";
   interests: string[]; // e.g., ["history", "nature", "adventure", "food", "art"]
   duration: number; // number of days
   createdAt: Date;

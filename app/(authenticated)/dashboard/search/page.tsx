@@ -1,39 +1,39 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import type { Destination } from '@/lib/types/firestore';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import type { Destination } from "@/lib/types/firestore";
 
 interface SearchState {
   selectedDestination: string;
-  budget: 'budget' | 'moderate' | 'luxury';
+  budget: "budget" | "moderate" | "luxury";
   interests: string[];
   duration: number;
 }
 
 const INTEREST_OPTIONS = [
-  'history',
-  'nature',
-  'adventure',
-  'food',
-  'art',
-  'architecture',
-  'spiritual',
-  'entertainment',
-  'photography',
-  'shopping',
+  "history",
+  "nature",
+  "adventure",
+  "food",
+  "art",
+  "architecture",
+  "spiritual",
+  "entertainment",
+  "photography",
+  "shopping",
 ];
 
 export default function SearchPage() {
   const router = useRouter();
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [formState, setFormState] = useState<SearchState>({
-    selectedDestination: '',
-    budget: 'moderate',
+    selectedDestination: "",
+    budget: "moderate",
     interests: [],
     duration: 3,
   });
@@ -41,13 +41,13 @@ export default function SearchPage() {
   useEffect(() => {
     const loadDestinations = async () => {
       if (!db) {
-        setError('Database not initialized');
+        setError("Database not initialized");
         setLoading(false);
         return;
       }
 
       try {
-        const destinationsRef = collection(db, 'destinations');
+        const destinationsRef = collection(db, "destinations");
         const snapshot = await getDocs(destinationsRef);
         const dests: Destination[] = [];
 
@@ -68,8 +68,8 @@ export default function SearchPage() {
           }));
         }
       } catch (err) {
-        console.error('Error loading destinations:', err);
-        setError('Failed to load destinations');
+        console.error("Error loading destinations:", err);
+        setError("Failed to load destinations");
       } finally {
         setLoading(false);
       }
@@ -91,12 +91,12 @@ export default function SearchPage() {
     e.preventDefault();
 
     if (!formState.selectedDestination) {
-      setError('Please select a destination');
+      setError("Please select a destination");
       return;
     }
 
     if (formState.interests.length === 0) {
-      setError('Please select at least one interest');
+      setError("Please select at least one interest");
       return;
     }
 
@@ -104,7 +104,7 @@ export default function SearchPage() {
     const params = new URLSearchParams({
       destinationId: formState.selectedDestination,
       budget: formState.budget,
-      interests: formState.interests.join(','),
+      interests: formState.interests.join(","),
       duration: formState.duration.toString(),
     });
 
@@ -114,7 +114,9 @@ export default function SearchPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-gray-600 dark:text-gray-300">Loading destinations...</div>
+        <div className="text-gray-600 dark:text-gray-300">
+          Loading destinations...
+        </div>
       </div>
     );
   }
@@ -167,8 +169,11 @@ export default function SearchPage() {
                 What's your budget level?
               </label>
               <div className="flex gap-4">
-                {(['budget', 'moderate', 'luxury'] as const).map((level) => (
-                  <label key={level} className="flex items-center gap-2 cursor-pointer">
+                {(["budget", "moderate", "luxury"] as const).map((level) => (
+                  <label
+                    key={level}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
                     <input
                       type="radio"
                       name="budget"
@@ -177,17 +182,17 @@ export default function SearchPage() {
                       onChange={(e) =>
                         setFormState((prev) => ({
                           ...prev,
-                          budget: e.target.value as SearchState['budget'],
+                          budget: e.target.value as SearchState["budget"],
                         }))
                       }
                       className="h-4 w-4"
                     />
                     <span className="text-gray-700 dark:text-gray-300 capitalize">
-                      {level === 'budget'
-                        ? '💰 Budget'
-                        : level === 'moderate'
-                        ? '💵 Moderate'
-                        : '💎 Luxury'}
+                      {level === "budget"
+                        ? "💰 Budget"
+                        : level === "moderate"
+                          ? "💵 Moderate"
+                          : "💎 Luxury"}
                     </span>
                   </label>
                 ))}
@@ -207,8 +212,8 @@ export default function SearchPage() {
                     onClick={() => handleInterestToggle(interest)}
                     className={`rounded px-4 py-2 text-sm font-medium transition-colors ${
                       formState.interests.includes(interest)
-                        ? 'bg-indigo-600 text-white dark:bg-indigo-500'
-                        : 'bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+                        ? "bg-indigo-600 text-white dark:bg-indigo-500"
+                        : "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
                     }`}
                   >
                     {interest.charAt(0).toUpperCase() + interest.slice(1)}
@@ -237,7 +242,8 @@ export default function SearchPage() {
                   className="flex-1 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-600"
                 />
                 <span className="text-lg font-semibold text-indigo-600 dark:text-indigo-400 min-w-fit">
-                  {formState.duration} {formState.duration === 1 ? 'day' : 'days'}
+                  {formState.duration}{" "}
+                  {formState.duration === 1 ? "day" : "days"}
                 </span>
               </div>
             </div>

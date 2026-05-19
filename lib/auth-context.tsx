@@ -18,10 +18,6 @@ function getFriendlyFirebaseAuthError(error: unknown): string {
     const code = typeof authError.code === "string" ? authError.code : "";
 
     switch (code) {
-      case "auth/configuration-not-found":
-        return "Firebase Authentication is not configured for this project. Check the Firebase web app settings and make sure Email/Password or Google sign-in is enabled.";
-      case "auth/unauthorized-domain":
-        return "This domain is not authorized for Firebase Authentication. Add the current site to the authorized domains list in Firebase.";
       case "auth/invalid-email":
         return "Enter a valid email address.";
       case "auth/email-already-in-use":

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useAuth } from '@/lib/use-auth';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useAuth } from "@/lib/use-auth";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default function RootPage() {
   const { user, loading } = useAuth();
@@ -13,9 +13,9 @@ export default function RootPage() {
   useEffect(() => {
     if (!loading) {
       if (user) {
-        router.push('/dashboard');
+        router.push("/dashboard");
       } else {
-        router.push('/auth/sign-in');
+        router.push("/auth/sign-in");
       }
     }
   }, [user, loading, router]);

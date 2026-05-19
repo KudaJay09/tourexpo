@@ -1,6 +1,6 @@
 /**
  * Firestore Schema Documentation
- * 
+ *
  * Collections and document structure for TourExpo
  */
 
@@ -31,7 +31,7 @@ export interface Attraction {
   name: string;
   description: string;
   category: string; // e.g., "museum", "park", "beach", "monument", "restaurant"
-  budgetLevel: 'budget' | 'moderate' | 'premium'; // cost indicator
+  budgetLevel: "budget" | "moderate" | "premium"; // cost indicator
   tags: string[]; // e.g., ["cultural", "outdoor", "family-friendly", "historical"]
   latitude?: number;
   longitude?: number;
@@ -42,7 +42,7 @@ export interface Attraction {
   phone?: string;
   address?: string;
   hours?: string;
-  source: 'seeded' | 'external'; // data origin
+  source: "seeded" | "external"; // data origin
   externalId?: string; // ID from external API if applicable
   createdAt: Date;
   updatedAt: Date;
@@ -50,9 +50,9 @@ export interface Attraction {
 
 export interface UserPreference {
   userId: string;
-  budgetLevel: 'budget' | 'moderate' | 'premium';
+  budgetLevel: "budget" | "moderate" | "premium";
   interests: string[]; // e.g., ["culture", "nature", "food", "history", "adventure"]
-  tripDuration: 'day' | 'weekend' | 'week' | 'longer';
+  tripDuration: "day" | "weekend" | "week" | "longer";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -78,22 +78,22 @@ export interface Favorite {
 
 /**
  * Firestore Collections Structure:
- * 
+ *
  * /users/{uid}
  *   - User profile data
- * 
+ *
  * /destinations/{destinationId}
  *   - Destination metadata and summary
- * 
+ *
  * /destinations/{destinationId}/attractions/{attractionId}
  *   - Attractions within a destination
- * 
+ *
  * /recommendations/{recommendationId}
  *   - Generated recommendation results (cached per user query)
- * 
+ *
  * /users/{uid}/favorites/{favoriteId}
  *   - User's saved favorite attractions
- * 
+ *
  * /userPreferences/{userId}
  *   - User preference profile for recommendations
  */

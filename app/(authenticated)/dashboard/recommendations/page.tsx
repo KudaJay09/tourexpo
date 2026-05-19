@@ -1,11 +1,20 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/use-auth';
-import { db } from '@/lib/firebase';
-import { collection, addDoc, deleteDoc, query, where, getDocs, Timestamp, doc } from 'firebase/firestore';
-import type { Attraction } from '@/lib/types/firestore';
+import { useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useAuth } from "@/lib/use-auth";
+import { db } from "@/lib/firebase";
+import {
+  collection,
+  addDoc,
+  deleteDoc,
+  query,
+  where,
+  getDocs,
+  Timestamp,
+  doc,
+} from "firebase/firestore";
+import type { Attraction } from "@/lib/types/firestore";
 
 interface Recommendation {
   id: string;
@@ -15,7 +24,7 @@ interface Recommendation {
   rank: number;
 }
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default function RecommendationsPage() {
   const router = useRouter();
@@ -23,34 +32,34 @@ export default function RecommendationsPage() {
   const { user } = useAuth();
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [savingFav, setSavingFav] = useState<Set<string>>(new Set());
 
-  const destinationId = searchParams.get('destinationId');
-  const budget = searchParams.get('budget');
-  const interests = searchParams.get('interests')?.split(',') || [];
-  const duration = searchParams.get('duration');
+  const destinationId = searchParams.get("destinationId");
+  const budget = searchParams.get("budget");
+  const interests = searchParams.get("interests")?.split(",") || [];
+  const duration = searchParams.get("duration");
 
   useEffect(() => {
     const loadRecommendations = async () => {
       if (!user || !destinationId || !budget || !duration) {
-        setError('Missing required parameters');
+        setError("Missing required parameters");
         setLoading(false);
         return;
       }
 
       if (!db) {
-        setError('Database not initialized');
+        setError("Database not initialized");
         setLoading(false);
         return;
       }
 
       try {
         // Call API to generate recommendations
-        const response = await fetch('/api/recommendations/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const response = await fetch("/api/recommendations/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             userId: user.uid,
             destinationId,
@@ -62,7 +71,7 @@ export default function RecommendationsPage() {
 
         if (!response.ok) {
           const data = await response.json();
-          setError(data.error || 'Failed to generate recommendations');
+          setError(data.error || "Failed to generate recommendations");
           setLoading(false);
           return;
         }
@@ -71,8 +80,8 @@ export default function RecommendationsPage() {
         setRecommendations(data.recommendations);
 
         // Load user's existing favorites
-        const favRef = collection(db, 'favorites');
-        const favQuery = query(favRef, where('userId', '==', user.uid));
+        const favRef = collection(db, "favorites");
+        const favQuery = query(favRef, where("userId", "==", user.uid));
         const favSnapshot = await getDocs(favQuery);
         const favSet = new Set<string>();
         favSnapshot.forEach((doc) => {
@@ -81,8 +90,10 @@ export default function RecommendationsPage() {
         });
         setFavorites(favSet);
       } catch (err) {
-        console.error('Error loading recommendations:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load recommendations');
+        console.error("Error loading recommendations:", err);
+        setError(
+          err instanceof Error ? err.message : "Failed to load recommendations",
+        );
       } finally {
         setLoading(false);
       }
@@ -91,7 +102,10 @@ export default function RecommendationsPage() {
     loadRecommendations();
   }, [user, destinationId, budget, duration, interests]);
 
-  const handleToggleFavorite = async (attractionId: string, attractionName: string) => {
+  const handleToggleFavorite = async (
+    attractionId: string,
+    attractionName: string,
+  ) => {
     if (!user || !db) return;
 
     setSavingFav((prev) => new Set([...prev, attractionId]));
@@ -99,11 +113,11 @@ export default function RecommendationsPage() {
     try {
       if (favorites.has(attractionId)) {
         // Remove from favorites
-        const favRef = collection(db, 'favorites');
+        const favRef = collection(db, "favorites");
         const favQuery = query(
           favRef,
-          where('userId', '==', user.uid),
-          where('attractionId', '==', attractionId)
+          where("userId", "==", user.uid),
+          where("attractionId", "==", attractionId),
         );
         const snapshot = await getDocs(favQuery);
         snapshot.forEach((document) => {
@@ -117,7 +131,7 @@ export default function RecommendationsPage() {
         });
       } else {
         // Add to favorites
-        const favRef = collection(db, 'favorites');
+        const favRef = collection(db, "favorites");
         await addDoc(favRef, {
           userId: user.uid,
           attractionId,
@@ -129,7 +143,7 @@ export default function RecommendationsPage() {
         setFavorites((prev) => new Set([...prev, attractionId]));
       }
     } catch (err) {
-      console.error('Error toggling favorite:', err);
+      console.error("Error toggling favorite:", err);
     } finally {
       setSavingFav((prev) => {
         const newSet = new Set(prev);
@@ -159,11 +173,12 @@ export default function RecommendationsPage() {
               Recommended Attractions
             </h1>
             <p className="text-gray-600 dark:text-gray-300 mt-1">
-              Based on your preferences: {interests.join(', ')} • {budget} budget • {duration} days
+              Based on your preferences: {interests.join(", ")} • {budget}{" "}
+              budget • {duration} days
             </p>
           </div>
           <button
-            onClick={() => router.push('/dashboard/search')}
+            onClick={() => router.push("/dashboard/search")}
             className="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
           >
             New Search
@@ -246,16 +261,19 @@ export default function RecommendationsPage() {
                   {/* Favorite button */}
                   <button
                     onClick={() =>
-                      handleToggleFavorite(rec.attraction.id, rec.attraction.name)
+                      handleToggleFavorite(
+                        rec.attraction.id,
+                        rec.attraction.name,
+                      )
                     }
                     disabled={isSaving}
                     className={`ml-4 px-4 py-2 rounded font-medium transition-colors flex-shrink-0 ${
                       isFavorite
-                        ? 'bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600'
-                        : 'bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
-                    } ${isSaving ? 'opacity-50' : ''}`}
+                        ? "bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600"
+                        : "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                    } ${isSaving ? "opacity-50" : ""}`}
                   >
-                    {isSaving ? '...' : isFavorite ? '❤️ Saved' : '🤍 Save'}
+                    {isSaving ? "..." : isFavorite ? "❤️ Saved" : "🤍 Save"}
                   </button>
                 </div>
               </div>
@@ -266,7 +284,7 @@ export default function RecommendationsPage() {
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
           <button
-            onClick={() => router.push('/dashboard/favorites')}
+            onClick={() => router.push("/dashboard/favorites")}
             className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium"
           >
             View My Saved Favorites →

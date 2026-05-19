@@ -1,10 +1,10 @@
 // Rule-based recommendation engine for TourExpo
 
-import type { Attraction, Recommendation } from './types/firestore';
+import type { Attraction, Recommendation } from "./types/firestore";
 
 interface RecommendationInput {
   attractions: Attraction[];
-  budget: 'budget' | 'moderate' | 'luxury';
+  budget: "budget" | "moderate" | "luxury";
   interests: string[];
   duration: number;
   maxResults?: number;
@@ -20,15 +20,15 @@ interface ScoredAttraction {
  * Maps user budget level to attraction budget tiers
  */
 function getBudgetTiersForLevel(
-  level: 'budget' | 'moderate' | 'luxury'
-): ('free' | 'low' | 'medium' | 'high')[] {
+  level: "budget" | "moderate" | "luxury",
+): ("free" | "low" | "medium" | "high")[] {
   switch (level) {
-    case 'budget':
-      return ['free', 'low'];
-    case 'moderate':
-      return ['free', 'low', 'medium'];
-    case 'luxury':
-      return ['free', 'low', 'medium', 'high'];
+    case "budget":
+      return ["free", "low"];
+    case "moderate":
+      return ["free", "low", "medium"];
+    case "luxury":
+      return ["free", "low", "medium", "high"];
   }
 }
 
@@ -37,9 +37,9 @@ function getBudgetTiersForLevel(
  */
 function scoreAttraction(
   attraction: Attraction,
-  budget: 'budget' | 'moderate' | 'luxury',
+  budget: "budget" | "moderate" | "luxury",
   interests: string[],
-  duration: number
+  duration: number,
 ): ScoredAttraction {
   let score = 0;
   const matchReasons: string[] = [];
@@ -57,19 +57,21 @@ function scoreAttraction(
 
   // Interest scoring (0-40 points)
   const matchingInterests = attraction.tags.filter((tag) =>
-    interests.includes(tag)
+    interests.includes(tag),
   );
   const interestMatchPercentage = matchingInterests.length / interests.length;
   const interestScore = interestMatchPercentage * 40;
   score += interestScore;
 
   if (matchingInterests.length > 0) {
-    matchReasons.push(`Matches your interests: ${matchingInterests.join(', ')}`);
+    matchReasons.push(
+      `Matches your interests: ${matchingInterests.join(", ")}`,
+    );
   }
 
   // Category bonus (0-10 points)
   const categoryBonus =
-    attraction.category === 'food' && interests.includes('food') ? 10 : 0;
+    attraction.category === "food" && interests.includes("food") ? 10 : 0;
   score += categoryBonus;
 
   // Duration/variety scoring (0-10 points)
@@ -103,7 +105,7 @@ function scoreAttraction(
  * Generates recommendations for a user based on preferences
  */
 export function generateRecommendations(
-  input: RecommendationInput
+  input: RecommendationInput,
 ): ScoredAttraction[] {
   const { attractions, budget, interests, duration, maxResults = 10 } = input;
 
@@ -115,7 +117,7 @@ export function generateRecommendations(
 
   // Score all remaining attractions
   const scored = filteredAttractions.map((attr) =>
-    scoreAttraction(attr, budget, interests, duration)
+    scoreAttraction(attr, budget, interests, duration),
   );
 
   // Sort by score descending, then by rating descending
@@ -137,8 +139,8 @@ export function createRecommendationDocs(
   userId: string,
   preferenceId: string,
   destinationId: string,
-  scoredAttractions: ScoredAttraction[]
-): Omit<Recommendation, 'id' | 'createdAt'>[] {
+  scoredAttractions: ScoredAttraction[],
+): Omit<Recommendation, "id" | "createdAt">[] {
   return scoredAttractions.map((scored, index) => ({
     userId,
     preferenceId,
