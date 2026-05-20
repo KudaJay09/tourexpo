@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { Destination } from "@/lib/types/firestore";
@@ -28,6 +28,7 @@ const INTEREST_OPTIONS = [
 
 export default function SearchPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -61,7 +62,17 @@ export default function SearchPage() {
         dests.sort((a, b) => a.name.localeCompare(b.name));
         setDestinations(dests);
 
-        if (dests.length > 0) {
+        const destinationIdFromQuery = searchParams.get("destinationId");
+
+        if (
+          destinationIdFromQuery &&
+          dests.some((dest) => dest.id === destinationIdFromQuery)
+        ) {
+          setFormState((prev) => ({
+            ...prev,
+            selectedDestination: destinationIdFromQuery,
+          }));
+        } else if (dests.length > 0) {
           setFormState((prev) => ({
             ...prev,
             selectedDestination: dests[0].id,
@@ -76,7 +87,7 @@ export default function SearchPage() {
     };
 
     loadDestinations();
-  }, []);
+  }, [searchParams]);
 
   const handleInterestToggle = (interest: string) => {
     setFormState((prev) => ({
@@ -122,7 +133,7 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-2xl mx-auto px-4 py-12">
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
