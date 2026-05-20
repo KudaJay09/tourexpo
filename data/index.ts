@@ -1,14 +1,14 @@
 export const navItems = [
   {
-    name: "Home",
-    link: "#",
+    name: "Destinations",
+    link: "/dashboard/destinations",
   },
   {
-    name: "Pricing",
-    link: "#pricing",
+    name: "Recommendations",
+    link: "/dashboard/recommendations",
   },
   {
-    name: "Contact",
-    link: "#contact",
+    name: "Favorites",
+    link: "/dashboard/favorites",
   },
 ];

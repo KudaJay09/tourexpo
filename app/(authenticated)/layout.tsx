@@ -1,12 +1,19 @@
 "use client";
 
+import NavbarDemo from "@/components/resizable-navbar-demo";
 import { ProtectedLayout } from "@/lib/protected-layout";
-import { useAuth } from "@/lib/use-auth";
 
 export default function AuthenticatedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <ProtectedLayout>{children}</ProtectedLayout>;
+  return (
+    <ProtectedLayout>
+      <div className="relative min-h-screen">
+        <NavbarDemo />
+        <main>{children}</main>
+      </div>
+    </ProtectedLayout>
+  );
 }
