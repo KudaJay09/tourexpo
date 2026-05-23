@@ -5,13 +5,13 @@ import {
   MobileNavMenu,
   MobileNavToggle,
   Navbar,
-  NavbarButton,
   NavbarLogo,
   NavBody,
   NavItems,
 } from "@/components/ui/resizable-navbar";
 import { navItems } from "@/data";
 import { useState } from "react";
+import { NavbarAuthAction } from "./navbar-auth-action";
 
 export default function NavbarDemo() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,7 +24,7 @@ export default function NavbarDemo() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="primary">Login</NavbarButton>
+            <NavbarAuthAction />
           </div>
         </NavBody>
 
@@ -53,13 +53,10 @@ export default function NavbarDemo() {
               </a>
             ))}
             <div className="flex w-full flex-col gap-4">
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-              >
-                Login
-              </NavbarButton>
+              <NavbarAuthAction
+                fullWidth
+                onActionClick={() => setIsMobileMenuOpen(false)}
+              />
             </div>
           </MobileNavMenu>
         </MobileNav>

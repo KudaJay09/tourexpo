@@ -12,7 +12,7 @@ export default function AuthenticatedLayout({
     <ProtectedLayout>
       <div className="relative min-h-screen">
         <NavbarDemo />
-        <main>{children}</main>
+        <main className="pt-20">{children}</main>
       </div>
     </ProtectedLayout>
   );
