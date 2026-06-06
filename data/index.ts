@@ -11,4 +11,8 @@ export const navItems = [
     name: "Favorites",
     link: "/dashboard/favorites",
   },
+  {
+    name: "Attractions Test",
+    link: "/dashboard/attractions-test",
+  },
 ];

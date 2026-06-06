@@ -16,6 +16,14 @@ export interface Destination {
   id: string;
   name: string;
   country: string;
+  budget: "budget" | "moderate" | "luxury";
+  continent:
+    | "Africa"
+    | "Asia"
+    | "Europe"
+    | "North America"
+    | "South America"
+    | "Oceania";
   region?: string;
   latitude: number;
   longitude: number;
@@ -23,6 +31,7 @@ export interface Destination {
   population?: number;
   attractionCount: number;
   createdAt: Date;
+  imageUrl?: string;
 }
 
 export interface Attraction {

@@ -13,10 +13,19 @@ export interface Destination {
   name: string;
   country: string;
   description: string;
+  budget: "budget" | "moderate" | "luxury";
+  continent:
+    | "Africa"
+    | "Asia"
+    | "Europe"
+    | "North America"
+    | "South America"
+    | "Oceania";
   region?: string;
   latitude?: number;
   longitude?: number;
   createdAt: Date;
+  imageUrl?: string;
 }
 
 export interface Attraction {
