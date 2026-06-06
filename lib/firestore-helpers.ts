@@ -5,6 +5,7 @@ import type { Destination, Attraction } from "./firestore-schema";
 import {
   collection,
   doc,
+  getDoc,
   setDoc,
   getDocs,
   query,
@@ -95,6 +96,32 @@ export async function fetchDestinations(): Promise<Destination[]> {
     );
   } catch (error) {
     console.error("Error fetching destinations:", error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch a single destination by id
+ */
+export async function fetchDestinationById(
+  destinationId: string,
+): Promise<Destination | null> {
+  if (!db) throw new Error("Firestore not initialized");
+
+  try {
+    const destinationRef = doc(db, "destinations", destinationId);
+    const snapshot = await getDoc(destinationRef);
+
+    if (!snapshot.exists()) {
+      return null;
+    }
+
+    return {
+      ...snapshot.data(),
+      id: snapshot.id,
+    } as Destination;
+  } catch (error) {
+    console.error("Error fetching destination:", error);
     throw error;
   }
 }

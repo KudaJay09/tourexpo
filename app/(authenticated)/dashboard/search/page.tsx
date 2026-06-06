@@ -106,20 +106,7 @@ export default function SearchPage() {
       return;
     }
 
-    if (formState.interests.length === 0) {
-      setError("Please select at least one interest");
-      return;
-    }
-
-    // Navigate to recommendations page with search params
-    const params = new URLSearchParams({
-      destinationId: formState.selectedDestination,
-      budget: formState.budget,
-      interests: formState.interests.join(","),
-      duration: formState.duration.toString(),
-    });
-
-    router.push(`/dashboard/recommendations?${params.toString()}`);
+    router.push(`/dashboard/destinations/${formState.selectedDestination}`);
   };
 
   if (loading) {
