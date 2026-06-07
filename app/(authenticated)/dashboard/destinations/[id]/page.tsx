@@ -6,6 +6,8 @@ import {
   fetchDestinationById,
 } from "@/lib/firestore-helpers";
 import type { Attraction, Destination } from "@/lib/firestore-schema";
+import Image from "next/image";
+import { AttractionCard } from "@/components/attraction-card";
 
 type DestinationWithAttractions = Destination & {
   attractions: Attraction[];
@@ -17,9 +19,8 @@ export default function DestinationDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const [destination, setDestination] = useState<
-    DestinationWithAttractions | null
-  >(null);
+  const [destination, setDestination] =
+    useState<DestinationWithAttractions | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -95,26 +96,13 @@ export default function DestinationDetailPage({
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-cyan-950 px-4 py-12 text-white">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
-            {destination.name}
-          </h1>
-          {destination.country ? (
-            <p className="mt-1 text-sm text-slate-400 md:text-base">
-              {destination.country}
-            </p>
-          ) : null}
-          <p className="mt-3 max-w-2xl text-sm text-slate-300 md:text-base">
-            Browse this destination in the order you requested: name, image,
-            description, then its things to do.
-          </p>
-        </div>
-
         <article className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl shadow-black/20 backdrop-blur">
           <div className="p-6 md:p-8">
             {destination.imageUrl ? (
               <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/20">
-                <img
+                <Image
+                  width={300}
+                  height={300}
                   src={destination.imageUrl}
                   alt={destination.name}
                   className="h-72 w-full object-cover md:h-96"
@@ -122,8 +110,16 @@ export default function DestinationDetailPage({
               </div>
             ) : null}
 
+            <div className="pt-6 md:pt-8">
+              <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
+                {destination.name}
+                {", "}
+                {destination.country ? `${destination.country}` : ""}
+              </h1>
+            </div>
+
             {destination.description ? (
-              <p className="mt-5 max-w-3xl text-sm leading-7 text-slate-200 md:text-base">
+              <p className="mt-5 text-sm leading-7 text-slate-200 md:text-base line-clamp-3">
                 {destination.description}
               </p>
             ) : null}
@@ -136,20 +132,10 @@ export default function DestinationDetailPage({
               {destination.attractions.length > 0 ? (
                 <div className="grid gap-3 md:grid-cols-2">
                   {destination.attractions.map((attraction) => (
-                    <div
+                    <AttractionCard
                       key={attraction.id}
-                      className="rounded-2xl border border-white/10 bg-slate-950/50 p-4"
-                    >
-                      <h3 className="text-lg font-medium text-white">
-                        {attraction.name}
-                      </h3>
-                      <p className="mt-2 text-sm leading-6 text-slate-300">
-                        {attraction.description}
-                      </p>
-                      <div className="mt-3 text-xs uppercase tracking-[0.18em] text-slate-400">
-                        {attraction.category}
-                      </div>
-                    </div>
+                      attraction={attraction}
+                    />
                   ))}
                 </div>
               ) : (

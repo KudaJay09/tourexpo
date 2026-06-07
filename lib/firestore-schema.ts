@@ -36,8 +36,10 @@ export interface Destination {
 
 export interface Attraction {
   id: string;
+  imageUrl: string;
   destinationId: string; // foreign key to Destination
   name: string;
+  activity: string; // e.g., "Louvre Museum", "Eiffel Tower visit", "Seine River cruise"
   description: string;
   category: string; // e.g., "museum", "park", "beach", "monument", "restaurant"
   budgetLevel: "budget" | "moderate" | "premium"; // cost indicator
@@ -46,7 +48,6 @@ export interface Attraction {
   longitude?: number;
   rating?: number; // 0-5
   reviewCount?: number;
-  image?: string; // URL
   website?: string;
   phone?: string;
   address?: string;
