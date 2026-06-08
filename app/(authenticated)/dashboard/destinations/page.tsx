@@ -119,7 +119,7 @@ export default function DestinationsPage() {
                 ) : null}
 
                 {destination.description ? (
-                  <p className="mt-5 max-w-3xl text-sm leading-7 text-slate-200 md:text-base">
+                  <p className="mt-5 text-sm leading-7 text-slate-200 md:text-base">
                     {destination.description}
                   </p>
                 ) : null}
