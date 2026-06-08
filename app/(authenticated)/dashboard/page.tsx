@@ -9,20 +9,11 @@ function page() {
   const router = useRouter();
 
   const handleSubmit = (values: TravelPreferenceValues) => {
-    const params = new URLSearchParams();
-
     if (values.destinationId) {
-      params.set("destinationId", values.destinationId);
+      router.push(`/dashboard/destinations/${values.destinationId}`);
+    } else {
+      router.push("/dashboard/destinations");
     }
-
-    params.set("budget", values.budget);
-
-    if (values.continent) {
-      params.set("continent", values.continent);
-    }
-
-    const query = params.toString();
-    router.push(query ? `/dashboard/search?${query}` : "/dashboard/search");
   };
 
   return (

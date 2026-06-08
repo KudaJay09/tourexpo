@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   fetchAttractionsForDestination,
   fetchDestinations,
@@ -35,6 +36,7 @@ type TravelPreferenceFormProps = {
 export default function TravelPreferenceForm({
   onSubmit,
 }: TravelPreferenceFormProps) {
+  const router = useRouter();
   const [values, setValues] = useState<TravelPreferenceValues>({
     destination: "",
     destinationId: "",
@@ -145,6 +147,7 @@ export default function TravelPreferenceForm({
     }));
     setShowSuggestions(false);
     setHighlightedIndex(-1);
+    router.push(`/dashboard/destinations/${destination.id}`);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

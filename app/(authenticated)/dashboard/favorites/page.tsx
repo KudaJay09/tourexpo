@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/use-auth';
 import { db } from '@/lib/firebase';
 import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
@@ -14,7 +13,6 @@ interface FavoriteWithAttraction extends Favorite {
 export const dynamic = 'force-dynamic';
 
 export default function FavoritesPage() {
-  const router = useRouter();
   const { user } = useAuth();
   const [favorites, setFavorites] = useState<FavoriteWithAttraction[]>([]);
   const [loading, setLoading] = useState(true);
@@ -98,21 +96,13 @@ export default function FavoritesPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              My Saved Attractions
-            </h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-1">
-              {favorites.length} saved {favorites.length === 1 ? 'attraction' : 'attractions'}
-            </p>
-          </div>
-          <button
-            onClick={() => router.push('/dashboard/search')}
-            className="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
-          >
-            New Search
-          </button>
+        <div className="max-w-4xl mx-auto px-4 py-6">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            My Saved Attractions
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-1">
+            {favorites.length} saved {favorites.length === 1 ? 'attraction' : 'attractions'}
+          </p>
         </div>
       </div>
 
@@ -126,15 +116,9 @@ export default function FavoritesPage() {
 
         {favorites.length === 0 && !error && (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-12 text-center">
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <p className="text-gray-600 dark:text-gray-300">
               You haven't saved any attractions yet.
             </p>
-            <button
-              onClick={() => router.push('/dashboard/search')}
-              className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium"
-            >
-              Start exploring →
-            </button>
           </div>
         )}
 
