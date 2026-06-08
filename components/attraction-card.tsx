@@ -27,22 +27,16 @@ export function AttractionCard({ attraction }: AttractionCardProps) {
           {attraction.activity}
         </h3>
 
-        {/* {attraction.tags.length > 0 && (
+        {attraction.tags && attraction.tags.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-2">
-            {attraction.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full bg-cyan-600/80 px-2 py-0.5 text-xs text-white"
-              >
+            {attraction.tags.map((tag, index) => (
+              <p key={tag} className="text-xs text-slate-400">
                 {tag}
-              </span>
+                {index < attraction.tags.length - 1 ? "," : ""}
+              </p>
             ))}
           </div>
-        )} */}
-
-        {/* <div className="mt-3 text-xs uppercase tracking-[0.18em] text-slate-400">
-          {attraction.category}
-        </div> */}
+        )}
       </div>
     </div>
   );
