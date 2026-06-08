@@ -256,7 +256,7 @@ export default function TravelPreferenceForm({
               <div
                 id="destination-suggestion-list"
                 role="listbox"
-                className="absolute z-20 mt-2 max-h-64 w-full overflow-y-auto rounded-2xl border border-white/10 bg-slate-950/95 p-1 shadow-2xl"
+                className="absolute z-20 mt-2 max-h-64 w-full overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-100 rounded-2xl border border-white/10 bg-slate-950/95 p-1 shadow-2xl"
               >
                 {destinationLoading ? (
                   <div className="px-3 py-2 text-sm text-slate-300">

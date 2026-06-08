@@ -40,7 +40,7 @@ export interface Attraction {
   destinationId: string; // foreign key to Destination
   name: string;
   activity: string; // e.g., "Louvre Museum", "Eiffel Tower visit", "Seine River cruise"
-  description: string;
+  about: string;
   category: string; // e.g., "museum", "park", "beach", "monument", "restaurant"
   budgetLevel: "budget" | "moderate" | "premium"; // cost indicator
   tags: string[]; // e.g., ["cultural", "outdoor", "family-friendly", "historical"]

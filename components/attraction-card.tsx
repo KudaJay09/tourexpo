@@ -11,7 +11,7 @@ export function AttractionCard({ attraction }: AttractionCardProps) {
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50">
       {attraction.imageUrl ? (
-        <div className="relative h-40 w-full overflow-hidden bg-black/20">
+        <div className="relative h-60 w-full overflow-hidden bg-black/20">
           <Image
             src={attraction.imageUrl}
             alt={attraction.activity}

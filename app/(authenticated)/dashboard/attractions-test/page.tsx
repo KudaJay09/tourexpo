@@ -6,6 +6,7 @@ import {
   fetchDestinations,
 } from "@/lib/firestore-helpers";
 import type { Attraction, Destination } from "@/lib/firestore-schema";
+import Image from "next/image";
 
 export default function AttractionsTestPage() {
   const [destinations, setDestinations] = useState<Destination[]>([]);
@@ -181,17 +182,21 @@ export default function AttractionsTestPage() {
                     className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800"
                   >
                     <p className="font-semibold text-slate-900 dark:text-white">
-                      {attraction.name}
+                      {attraction.activity}
                     </p>
-                    <p className="mt-1 text-sm text-slate-700 dark:text-slate-300">
-                      Category: {attraction.category}
-                      {typeof attraction.rating === "number"
-                        ? ` · Rating: ${attraction.rating}`
-                        : ""}
-                    </p>
-                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-                      {attraction.description}
-                    </p>
+
+                    <div className="mt-2">
+                      <Image
+                        src={attraction.imageUrl}
+                        alt={attraction.activity}
+                        width={100}
+                        height={100}
+                        className="mt-2 mr-4 h-24 float-left w-24 rounded object-cover"
+                      />
+                      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                        {attraction.about}
+                      </p>
+                    </div>
                   </li>
                 ))}
               </ul>
