@@ -7,6 +7,8 @@ import {
 } from "@/lib/firestore-helpers";
 import type { Attraction, Destination } from "@/lib/firestore-schema";
 import { AttractionCard } from "@/components/attraction-card";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type DestinationWithAttractions = Destination & {
   attractions: Attraction[];
@@ -18,6 +20,7 @@ export default function DestinationsPage() {
   >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -88,10 +91,6 @@ export default function DestinationsPage() {
           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
             Destinations
           </h1>
-          <p className="mt-2 max-w-2xl text-sm text-slate-300 md:text-base">
-            Browse each destination in the order you requested: name, image,
-            description, then its things to do.
-          </p>
         </div>
 
         {error && (
@@ -102,7 +101,8 @@ export default function DestinationsPage() {
 
         <div className="grid gap-6">
           {destinations.map((destination) => (
-            <article
+            <Link
+              href={`/dashboard/destinations/${destination.id}`}
               key={destination.id}
               className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl shadow-black/20 backdrop-blur"
             >
@@ -122,9 +122,27 @@ export default function DestinationsPage() {
                 ) : null}
 
                 {destination.description ? (
-                  <p className="mt-5 text-sm leading-7 text-slate-200 md:text-base line-clamp-3">
-                    {destination.description}
-                  </p>
+                  <>
+                    <p
+                      className={cn(
+                        "mt-5 text-sm leading-7 text-slate-200 md:text-base",
+                        !isDescriptionExpanded && "line-clamp-3",
+                      )}
+                    >
+                      {destination.description}
+                    </p>
+                    {destination.description.length > 250 && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setIsDescriptionExpanded((prev) => !prev)
+                        }
+                        className="mt-2 text-xs font-medium text-cyan-300 hover:text-cyan-200 hover:underline"
+                      >
+                        {isDescriptionExpanded ? "Show less" : "Show more"}
+                      </button>
+                    )}
+                  </>
                 ) : null}
 
                 <section className="mt-7">
@@ -148,7 +166,7 @@ export default function DestinationsPage() {
                   )}
                 </section>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>
