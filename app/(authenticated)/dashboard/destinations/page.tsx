@@ -6,6 +6,7 @@ import {
   fetchDestinations,
 } from "@/lib/firestore-helpers";
 import type { Attraction, Destination } from "@/lib/firestore-schema";
+import { AttractionCard } from "@/components/attraction-card";
 
 type DestinationWithAttractions = Destination & {
   attractions: Attraction[];
@@ -121,7 +122,7 @@ export default function DestinationsPage() {
                 ) : null}
 
                 {destination.description ? (
-                  <p className="mt-5 text-sm leading-7 text-slate-200 md:text-base">
+                  <p className="mt-5 text-sm leading-7 text-slate-200 md:text-base line-clamp-3">
                     {destination.description}
                   </p>
                 ) : null}
@@ -134,25 +135,15 @@ export default function DestinationsPage() {
                   {destination.attractions.length > 0 ? (
                     <div className="grid gap-3 md:grid-cols-2">
                       {destination.attractions.map((attraction) => (
-                        <div
+                        <AttractionCard
                           key={attraction.id}
-                          className="rounded-2xl border border-white/10 bg-slate-950/50 p-4"
-                        >
-                          <h3 className="text-lg font-medium text-white">
-                            {attraction.name}
-                          </h3>
-                          <p className="mt-2 text-sm leading-6 text-slate-300">
-                            {attraction.description}
-                          </p>
-                          <div className="mt-3 text-xs uppercase tracking-[0.18em] text-slate-400">
-                            {attraction.category}
-                          </div>
-                        </div>
+                          attraction={attraction}
+                        />
                       ))}
                     </div>
                   ) : (
                     <p className="text-sm text-slate-400">
-                      No attractions found for this destination yet.
+                      No attractions found.
                     </p>
                   )}
                 </section>

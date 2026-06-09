@@ -13,7 +13,9 @@ export default function RootPage() {
   useEffect(() => {
     if (!loading) {
       if (user) {
-        router.push("/dashboard");
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 3000);
       } else {
         router.push("/auth/sign-in");
       }
@@ -22,7 +24,9 @@ export default function RootPage() {
 
   return (
     <div className="flex flex-1 items-center justify-center">
-      <div className="text-gray-600 dark:text-gray-300">Loading...</div>
+      <video autoPlay muted loop>
+        <source src="/intro2.webm" type="video/webm" />
+      </video>
     </div>
   );
 }

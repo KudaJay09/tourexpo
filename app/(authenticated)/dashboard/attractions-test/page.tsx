@@ -64,7 +64,9 @@ export default function AttractionsTestPage() {
 
     try {
       const data = await fetchAttractionsForDestination(selectedDestinationId);
-      const sorted = [...data].sort((a, b) => a.name.localeCompare(b.name));
+      const sorted = [...data].sort((a, b) =>
+        a.activity.localeCompare(b.activity),
+      );
       setAttractions(sorted);
       setHasFetched(true);
     } catch (error) {

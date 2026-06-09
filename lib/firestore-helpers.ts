@@ -8,7 +8,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import { db } from "./firebase";
-import type { Attraction, Destination } from "./firestore-schema";
+import type { Attraction, Destination, Hotel } from "./firestore-schema";
 
 /**
  * Fetch all destinations
@@ -83,6 +83,27 @@ export async function fetchAttractionsForDestination(
     );
   } catch (error) {
     console.error("Error fetching attractions:", error);
+    throw error;
+  }
+}
+
+export async function fetchHotelsForDestinations(
+  destinationId: string,
+): Promise<Hotel[]> {
+  if (!db) throw new Error("Firestore not initialized");
+
+  try {
+    const hotelsRef = collection(db, "destinations", destinationId, "hotels");
+    const snapshot = await getDocs(hotelsRef);
+    return snapshot.docs.map(
+      (doc) =>
+        ({
+          ...doc.data(),
+          id: doc.id,
+        }) as Hotel,
+    );
+  } catch (error) {
+    console.error("Error fetching hotels:", error);
     throw error;
   }
 }

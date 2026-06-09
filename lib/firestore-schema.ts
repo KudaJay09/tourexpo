@@ -67,14 +67,17 @@ export interface UserPreference {
   updatedAt: Date;
 }
 
-export interface Recommendation {
+export interface Hotel {
   id: string;
-  userId: string;
+  name: string;
   destinationId: string;
-  attractionIds: string[]; // ranked list of attraction IDs
-  scores: Record<string, number>; // attractionId -> score
-  explanations: Record<string, string>; // attractionId -> why_recommended
+  description: string;
+  imageUrl?: string;
+  rating?: number;
+  pricePerNight: number;
+  amenities: string[];
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Favorite {
