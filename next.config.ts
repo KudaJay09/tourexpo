@@ -7,8 +7,12 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "images.unsplash.com",
-        port: "",
-        pathname: "/**",
+        pathname: "/photo-**",
+      },
+      {
+        protocol: "https",
+        hostname: "dynamic-media-cdn.tripadvisor.com",
+        pathname: "/media/photo-o/**",
       },
     ],
   },

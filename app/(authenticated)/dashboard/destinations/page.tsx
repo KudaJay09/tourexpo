@@ -40,7 +40,9 @@ export default function DestinationsPage() {
             return {
               ...destination,
               attractions: [...attractions].sort((a, b) =>
-                a.name.localeCompare(b.name),
+                (a.name ?? a.activity ?? "").localeCompare(
+                  b.name ?? b.activity ?? "",
+                ),
               ),
             };
           }),

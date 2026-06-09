@@ -45,7 +45,7 @@ export default function DestinationDetailPage({
 
         const attractions = await fetchAttractionsForDestination(id);
         const sortedAttractions = [...attractions].sort((a, b) =>
-          a.name.localeCompare(b.name),
+          (a.name ?? a.activity ?? "").localeCompare(b.name ?? b.activity ?? ""),
         );
 
         if (isMounted) {
