@@ -205,7 +205,7 @@ export default function TravelPreferenceForm({
       className="w-full max-w-2xl rounded-3xl border border-white/20 bg-slate-950/80 p-6 text-white shadow-2xl shadow-slate-950/30 backdrop-blur md:p-8"
     >
       <div className="mb-6 space-y-2">
-        <h2 className="text-2xl font-semibold md:text-3xl">
+        <h2 className="text-2xl font-semibold  md:text-3xl">
           Build your travel brief &{" "}
           <span className="text-cyan-300 ">Travel Smart.</span>
         </h2>
