@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tabler/icons-react": "^3.44.0",
+    "@vercel/speed-insights": "^2.0.0",
     "clsx": "^2.1.1",
     "firebase": "^11.0.0",
     "motion": "^12.39.0",
