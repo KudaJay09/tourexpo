@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const destinations = [
   {
     name: "Bali, Indonesia",
@@ -55,7 +57,9 @@ export default function RecommendationsPage() {
               className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200 transition duration-200 hover:-translate-y-1 hover:shadow-lg dark:bg-gray-800 dark:ring-gray-700"
             >
               <div className="aspect-4/3 overflow-hidden bg-gray-100 dark:bg-gray-700">
-                <img
+                <Image
+                  width={500}
+                  height={300}
                   src={destination.image}
                   alt={destination.name}
                   className="h-full w-full object-cover transition duration-300 hover:scale-105"

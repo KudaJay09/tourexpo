@@ -5,7 +5,6 @@ import {
   doc,
   getDoc,
   getDocs,
-  writeBatch,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import type { Attraction, Destination, Hotel } from "./firestore-schema";

@@ -9,6 +9,7 @@ import type { Attraction, Destination } from "@/lib/firestore-schema";
 import { AttractionCard } from "@/components/attraction-card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import Image from "next/image";
 
 type DestinationWithAttractions = Destination & {
   attractions: Attraction[];
@@ -113,7 +114,9 @@ export default function DestinationsPage() {
 
                 {destination.imageUrl ? (
                   <div className="mt-5 overflow-hidden rounded-2xl border border-white/10 bg-black/20">
-                    <img
+                    <Image
+                      width={500}
+                      height={300}
                       src={destination.imageUrl}
                       alt={destination.name}
                       className="h-72 w-full object-cover md:h-96"

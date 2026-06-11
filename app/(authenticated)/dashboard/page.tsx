@@ -5,7 +5,7 @@ import TravelPreferenceForm, {
   type TravelPreferenceValues,
 } from "@/components/travel-preference-form";
 
-function page() {
+function DashboardPage() {
   const router = useRouter();
 
   const handleSubmit = (values: TravelPreferenceValues) => {
@@ -32,4 +32,4 @@ function page() {
   );
 }
 
-export default page;
+export default DashboardPage;

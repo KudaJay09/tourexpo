@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
         hostname: "dynamic-media-cdn.tripadvisor.com",
         pathname: "/media/photo-o/**",
       },
+      {
+        protocol: "https",
+        hostname: "assets.aceternity.com",
+        pathname: "/logo-dark.png",
+      }
     ],
   },
 };

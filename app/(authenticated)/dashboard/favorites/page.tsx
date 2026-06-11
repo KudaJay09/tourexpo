@@ -117,7 +117,7 @@ export default function FavoritesPage() {
         {favorites.length === 0 && !error && (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-12 text-center">
             <p className="text-gray-600 dark:text-gray-300">
-              You haven't saved any attractions yet.
+              You haven&apos;t saved any attractions yet.
             </p>
           </div>
         )}
